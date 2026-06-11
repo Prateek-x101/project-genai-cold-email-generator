@@ -244,7 +244,6 @@ async def send_email_via_smtp(
                 timeout=15
             )
             await smtp.connect()
-            await smtp.starttls()
             await smtp.login(gmail_address, gmail_app_password)
             await smtp.send_message(msg)
             await smtp.quit()
@@ -315,7 +314,6 @@ async def verify_smtp_credentials(
                 timeout=15
             )
             await smtp.connect()
-            await smtp.starttls()
             await smtp.login(gmail_address, gmail_app_password)
             await smtp.quit()
             connected = True
