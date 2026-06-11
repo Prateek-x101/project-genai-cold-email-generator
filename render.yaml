@@ -5,7 +5,7 @@ services:
     plan: free # Can be upgraded by user
     region: oregon # default region
     dockerfilePath: backend/Dockerfile
-    context: backend
+    dockerContext: backend
     disk:
       name: vectorstore-data
       mountPath: /app/vectorstore
