@@ -216,27 +216,49 @@ async def send_email_via_smtp(
             raise RuntimeError(f"Failed to attach file '{err_name}': {str(e)}")
 
     # 3. SMTP configuration and transmission
+    connected = False
+    smtp = None
+    
+    # Try SSL port 465 first
     try:
-        # Connect to gmail SMTP (SSL port 465)
         smtp = aiosmtplib.SMTP(
             hostname="smtp.gmail.com",
             port=465,
-            use_tls=True
+            use_tls=True,
+            timeout=15
         )
-        
         await smtp.connect()
         await smtp.login(gmail_address, gmail_app_password)
         await smtp.send_message(msg)
         await smtp.quit()
-        
-        return {"success": True, "message": "Email sent successfully!"}
-        
+        connected = True
     except aiosmtplib.SMTPAuthenticationError:
         raise RuntimeError("Gmail authentication failed. Please double check your Gmail address and 16-character App Password.")
-    except aiosmtplib.SMTPConnectError:
-        raise RuntimeError("Failed to connect to Google SMTP servers. Try again later.")
     except Exception as e:
-        raise RuntimeError(f"SMTP Error: {str(e)}")
+        # Fallback to STARTTLS port 587
+        try:
+            smtp = aiosmtplib.SMTP(
+                hostname="smtp.gmail.com",
+                port=587,
+                use_tls=False,
+                timeout=15
+            )
+            await smtp.connect()
+            await smtp.starttls()
+            await smtp.login(gmail_address, gmail_app_password)
+            await smtp.send_message(msg)
+            await smtp.quit()
+            connected = True
+        except aiosmtplib.SMTPAuthenticationError:
+            raise RuntimeError("Gmail authentication failed. Please double check your Gmail address and 16-character App Password.")
+        except Exception as fallback_err:
+            raise RuntimeError(
+                f"Failed to send email via port 465 and port 587. "
+                f"Error 465: {str(e)}. Error 587: {str(fallback_err)}"
+            )
+
+    if connected:
+        return {"success": True, "message": "Email sent successfully!"}
 
 
 async def verify_smtp_credentials(
@@ -260,19 +282,21 @@ async def verify_smtp_credentials(
             "Generate one at myaccount.google.com/apppasswords"
         )
 
+    connected = False
+    smtp = None
+    
+    # Try Port 465 first
     try:
         smtp = aiosmtplib.SMTP(
             hostname="smtp.gmail.com",
             port=465,
             use_tls=True,
-            timeout=15  # 15-second connect timeout
+            timeout=15
         )
         await smtp.connect()
         await smtp.login(gmail_address, gmail_app_password)
-        # Immediately quit — no email is sent
         await smtp.quit()
-        return {"success": True, "message": "Gmail credentials verified successfully!"}
-
+        connected = True
     except aiosmtplib.SMTPAuthenticationError:
         raise RuntimeError(
             "Authentication failed. Make sure:\n"
@@ -281,9 +305,33 @@ async def verify_smtp_credentials(
             "3. 2-Step Verification is enabled at myaccount.google.com/security\n"
             "Generate App Password: myaccount.google.com/apppasswords"
         )
-    except aiosmtplib.SMTPConnectError as e:
-        raise RuntimeError(f"Could not connect to Gmail SMTP servers. Check your internet connection. ({str(e)})")
-    except TimeoutError:
-        raise RuntimeError("Connection timed out. Gmail SMTP server did not respond within 15 seconds.")
     except Exception as e:
-        raise RuntimeError(f"SMTP verification error: {str(e)}")
+        # Fallback to Port 587
+        try:
+            smtp = aiosmtplib.SMTP(
+                hostname="smtp.gmail.com",
+                port=587,
+                use_tls=False,
+                timeout=15
+            )
+            await smtp.connect()
+            await smtp.starttls()
+            await smtp.login(gmail_address, gmail_app_password)
+            await smtp.quit()
+            connected = True
+        except aiosmtplib.SMTPAuthenticationError:
+            raise RuntimeError(
+                "Authentication failed. Make sure:\n"
+                "1. You entered the correct Gmail address\n"
+                "2. You are using a Google App Password (not your regular Gmail password)\n"
+                "3. 2-Step Verification is enabled at myaccount.google.com/security\n"
+                "Generate App Password: myaccount.google.com/apppasswords"
+            )
+        except Exception as fallback_err:
+            raise RuntimeError(
+                f"Failed to connect to Gmail SMTP server on Port 465 and Port 587. "
+                f"Error 465: {str(e)}. Error 587: {str(fallback_err)}"
+            )
+
+    if connected:
+        return {"success": True, "message": "Gmail credentials verified successfully!"}
