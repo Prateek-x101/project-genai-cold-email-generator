@@ -6,15 +6,11 @@ services:
     region: oregon # default region
     dockerfilePath: backend/Dockerfile
     dockerContext: backend
-    disk:
-      name: vectorstore-data
-      mountPath: /app/vectorstore
-      sizeGB: 1
     envVars:
       - key: PORT
         value: 8000
       - key: CHROMADB_PATH
-        value: /app/vectorstore
+        value: vectorstore
       - key: GROQ_API_KEY
         sync: false # User can input this directly in Render dashboard
       - key: OPENAI_API_KEY
