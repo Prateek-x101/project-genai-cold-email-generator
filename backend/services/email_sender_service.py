@@ -285,7 +285,7 @@ async def verify_smtp_credentials(
     connected = False
     smtp = None
     
-    # Try Port 465 first
+    # Try Port 465 (SSL/TLS) first, then fallback to Port 587 (STARTTLS)
     try:
         smtp = aiosmtplib.SMTP(
             hostname="smtp.gmail.com",
