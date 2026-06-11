@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
 
 # Copy requirements and install dependencies
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --default-timeout=100 -r requirements.txt
 
 # Copy backend files into /app/backend to maintain package structure
 COPY . /app/backend/
