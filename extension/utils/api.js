@@ -213,7 +213,7 @@ class ColdCraftAPI {
     return await this._post('/api/verify-smtp', {
       gmail_address: gmailAddress,
       gmail_app_password: appPassword
-    }, 20000); // 20s timeout — SMTP connect can be slow
+    }, 60000); // 60s timeout — SMTP connect & port fallbacks can take time
   }
 }
 
