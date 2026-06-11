@@ -60,7 +60,7 @@ const DEFAULTS = {
     sendLimit: 50,
   },
 
-  [STORAGE_KEYS.BACKEND_URL]: 'http://localhost:8000',
+  [STORAGE_KEYS.BACKEND_URL]: 'https://coldcraft-api-xjmt.onrender.com',
 
   [STORAGE_KEYS.JOB_HISTORY]: [],
 };
