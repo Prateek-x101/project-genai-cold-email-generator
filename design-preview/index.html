@@ -1,0 +1,1743 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ColdCraft AI — Design Preview</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* ============================================
+           COLDCRAFT AI — NEO-BRUTALISM DESIGN SYSTEM
+           ============================================ */
+
+        :root {
+            /* Backgrounds */
+            --bg-primary: #FFFDF5;
+            --bg-card: #FFFFFF;
+            --bg-page: #F5F3EB;
+
+            /* Accent Colors */
+            --accent-yellow: #FFD60A;
+            --accent-yellow-light: #FFF3B0;
+            --accent-blue: #BDE0FE;
+            --accent-blue-dark: #89CFF0;
+            --accent-green: #B8F2B8;
+            --accent-green-dark: #6BCB77;
+            --accent-pink: #FFB3C6;
+            --accent-pink-dark: #FF6B8A;
+            --accent-purple: #C4B5FD;
+            --accent-purple-dark: #8B5CF6;
+            --accent-orange: #FDBA74;
+
+            /* Text */
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a4a4a;
+            --text-muted: #7a7a7a;
+            --text-white: #FFFFFF;
+
+            /* Borders & Shadows */
+            --border-color: #1a1a1a;
+            --border-width: 2.5px;
+            --shadow: 4px 4px 0px #1a1a1a;
+            --shadow-hover: 6px 6px 0px #1a1a1a;
+            --shadow-active: 2px 2px 0px #1a1a1a;
+            --shadow-soft: 4px 4px 0px rgba(0, 0, 0, 0.15);
+
+            /* Layout */
+            --radius: 0px;
+            --radius-sm: 0px;
+            --radius-pill: 0px;
+            --panel-width: 420px;
+
+            /* Pixel Corner Notch */
+            --notch: 3px;
+
+            /* Font */
+            --font: 'Space Grotesk', sans-serif;
+
+            /* Transitions */
+            --transition: all 0.15s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg-page);
+            color: var(--text-primary);
+            padding: 40px;
+            min-height: 100vh;
+        }
+
+        /* ============ PAGE LAYOUT ============ */
+        .page-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .page-header h1 {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .page-header h1 span {
+            background: var(--accent-yellow);
+            padding: 2px 12px;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 0;
+        }
+
+        .page-header p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: var(--panel-width) 1fr;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title .badge {
+            font-size: 11px;
+            background: var(--accent-purple);
+            padding: 2px 8px;
+            border-radius: var(--radius-pill);
+            border: 2px solid var(--border-color);
+            font-weight: 600;
+        }
+
+        /* ============ SIDE PANEL PREVIEW ============ */
+        .panel-container {
+            position: sticky;
+            top: 20px;
+        }
+
+        .side-panel {
+            width: var(--panel-width);
+            background: var(--bg-primary);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        /* Panel Header */
+        .panel-header {
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: var(--border-width) solid var(--border-color);
+            background: var(--accent-yellow);
+        }
+
+        .panel-logo {
+            font-size: 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .panel-logo .icon {
+            font-size: 22px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .icon-btn {
+            width: 34px;
+            height: 34px;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--radius-sm);
+            background: var(--bg-card);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 16px;
+            transition: var(--transition);
+            box-shadow: 2px 2px 0px #1a1a1a;
+        }
+
+        .icon-btn:hover {
+            box-shadow: 3px 3px 0px #1a1a1a;
+            transform: translate(-1px, -1px);
+        }
+
+        .icon-btn:active {
+            box-shadow: 1px 1px 0px #1a1a1a;
+            transform: translate(1px, 1px);
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            border-bottom: var(--border-width) solid var(--border-color);
+            background: var(--bg-card);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 12px 8px;
+            font-family: var(--font);
+            font-size: 12px;
+            font-weight: 600;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--text-muted);
+            border-right: var(--border-width) solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .tab-btn:last-child {
+            border-right: none;
+        }
+
+        .tab-btn.active {
+            background: var(--accent-yellow-light);
+            color: var(--text-primary);
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: #f5f5f0;
+        }
+
+        .tab-icon {
+            font-size: 18px;
+        }
+
+        /* Panel Content */
+        .panel-content {
+            padding: 16px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .panel-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .panel-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .panel-content::-webkit-scrollbar-thumb {
+            background: #ccc;
+            border-radius: 0;
+        }
+
+        /* ============ PIXEL CORNER NOTCH ============ 
+           Adds a stepped pixel-art corner cut on elements.
+           Uses pseudo-elements to cut small squares from corners. */
+        .pixel-corners {
+            position: relative;
+        }
+
+        .pixel-corners::before,
+        .pixel-corners::after {
+            content: '';
+            position: absolute;
+            width: var(--notch);
+            height: var(--notch);
+            background: var(--bg-page);
+            z-index: 2;
+        }
+
+        /* Top-left notch */
+        .pixel-corners::before {
+            top: calc(-1 * var(--border-width));
+            left: calc(-1 * var(--border-width));
+        }
+
+        /* Bottom-right notch (on the shadow side) */
+        .pixel-corners::after {
+            bottom: calc(-1 * var(--border-width));
+            right: calc(-1 * var(--border-width));
+        }
+
+        /* 4-corner variant: uses an extra wrapper's pseudo-elements */
+        .pixel-corners-all::before {
+            content: '';
+            position: absolute;
+            top: calc(-1 * var(--border-width));
+            right: calc(-1 * var(--border-width));
+            width: var(--notch);
+            height: var(--notch);
+            background: var(--bg-page);
+            z-index: 2;
+        }
+
+        .pixel-corners-all::after {
+            content: '';
+            position: absolute;
+            bottom: calc(-1 * var(--border-width));
+            left: calc(-1 * var(--border-width));
+            width: var(--notch);
+            height: var(--notch);
+            background: var(--bg-page);
+            z-index: 2;
+        }
+
+        /* Card-level pixel corners (cards sit on --bg-primary) */
+        .pixel-card {
+            position: relative;
+        }
+
+        .pixel-card::before {
+            content: '';
+            position: absolute;
+            top: calc(-1 * var(--border-width));
+            left: calc(-1 * var(--border-width));
+            width: var(--notch);
+            height: var(--notch);
+            background: var(--bg-primary);
+            z-index: 2;
+        }
+
+        .pixel-card::after {
+            content: '';
+            position: absolute;
+            bottom: calc(-1 * var(--border-width));
+            right: calc(-1 * var(--border-width));
+            width: var(--notch);
+            height: var(--notch);
+            background: var(--bg-primary);
+            z-index: 2;
+        }
+
+        /* ============ MODE CARDS ============ */
+        .mode-card {
+            padding: 14px 16px;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .mode-card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translate(-2px, -2px);
+        }
+
+        .mode-card:active {
+            box-shadow: var(--shadow-active);
+            transform: translate(1px, 1px);
+        }
+
+        .mode-card.yellow {
+            background: var(--accent-yellow);
+        }
+
+        .mode-card.blue {
+            background: var(--accent-blue);
+        }
+
+        .mode-card.green {
+            background: var(--accent-green);
+        }
+
+        .mode-card.pink {
+            background: var(--accent-pink);
+        }
+
+        .mode-card.purple {
+            background: var(--accent-purple);
+        }
+
+        .mode-icon {
+            font-size: 24px;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-card);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--radius-sm);
+            flex-shrink: 0;
+        }
+
+        .mode-info h3 {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .mode-info p {
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .mode-arrow {
+            margin-left: auto;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        /* ============ JOB CARDS ============ */
+        .jobs-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            margin-top: 8px;
+        }
+
+        .jobs-header h3 {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .jobs-count {
+            font-size: 12px;
+            background: var(--accent-yellow);
+            padding: 2px 10px;
+            border-radius: var(--radius-pill);
+            border: 2px solid var(--border-color);
+            font-weight: 700;
+        }
+
+        .job-card {
+            background: var(--bg-card);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 14px;
+            margin-bottom: 12px;
+            transition: var(--transition);
+        }
+
+        .job-card:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translate(-1px, -1px);
+        }
+
+        .job-card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .job-card-header .checkbox {
+            width: 20px;
+            height: 20px;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 0;
+            background: var(--accent-yellow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            flex-shrink: 0;
+            margin-right: 10px;
+            margin-top: 2px;
+        }
+
+        .job-title {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .job-company {
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .status-badge {
+            font-size: 10px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: var(--radius-pill);
+            border: 2px solid var(--border-color);
+            white-space: nowrap;
+        }
+
+        .status-badge.ready {
+            background: var(--accent-green);
+        }
+
+        .status-badge.pending {
+            background: var(--accent-yellow);
+        }
+
+        .status-badge.sent {
+            background: var(--accent-blue);
+        }
+
+        .status-badge.error {
+            background: var(--accent-pink);
+        }
+
+        .job-email {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .job-email .verified {
+            color: var(--accent-green-dark);
+            font-weight: 700;
+            font-size: 10px;
+        }
+
+        .job-email .suggested {
+            color: var(--accent-orange);
+            font-weight: 700;
+            font-size: 10px;
+        }
+
+        .job-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        /* ============ BUTTONS ============ */
+        .btn {
+            font-family: var(--font);
+            font-weight: 700;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-sm {
+            font-size: 11px;
+            padding: 5px 12px;
+            box-shadow: 2px 2px 0px #1a1a1a;
+        }
+
+        .btn-sm:hover {
+            box-shadow: 3px 3px 0px #1a1a1a;
+            transform: translate(-1px, -1px);
+        }
+
+        .btn-sm:active {
+            box-shadow: 1px 1px 0px #1a1a1a;
+            transform: translate(1px, 1px);
+        }
+
+        .btn-md {
+            font-size: 13px;
+            padding: 8px 18px;
+            box-shadow: var(--shadow);
+        }
+
+        .btn-md:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translate(-2px, -2px);
+        }
+
+        .btn-lg {
+            font-size: 15px;
+            padding: 14px 28px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn-lg:hover {
+            box-shadow: var(--shadow-hover);
+            transform: translate(-2px, -2px);
+        }
+
+        .btn-lg:active {
+            box-shadow: var(--shadow-active);
+            transform: translate(1px, 1px);
+        }
+
+        .btn-primary {
+            background: var(--accent-yellow);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+        }
+
+        .btn-blue {
+            background: var(--accent-blue);
+        }
+
+        .btn-green {
+            background: var(--accent-green);
+        }
+
+        .btn-pink {
+            background: var(--accent-pink);
+        }
+
+        .btn-purple {
+            background: var(--accent-purple);
+        }
+
+        /* ============ FLOATING BOTTOM BAR ============ */
+        .panel-footer {
+            padding: 14px 16px;
+            border-top: var(--border-width) solid var(--border-color);
+            background: var(--bg-primary);
+        }
+
+        .auto-send-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .auto-send-label {
+            font-size: 12px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Toggle Switch — keeps pill shape (functional element) */
+        .toggle {
+            width: 44px;
+            height: 24px;
+            background: #ddd;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: 12px;
+            position: relative;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .toggle.active {
+            background: var(--accent-green);
+        }
+
+        .toggle-knob {
+            width: 16px;
+            height: 16px;
+            background: var(--bg-card);
+            border: 2px solid var(--border-color);
+            border-radius: 50%;
+            position: absolute;
+            top: 2px;
+            left: 3px;
+            transition: var(--transition);
+        }
+
+        .toggle.active .toggle-knob {
+            left: 22px;
+        }
+
+        /* ============ RIGHT COLUMN: COMPONENTS ============ */
+        .components-column {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        .component-section {
+            background: var(--bg-primary);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+        }
+
+        /* ============ SETTINGS PREVIEW ============ */
+        .settings-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .setting-group {
+            background: var(--bg-card);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: var(--shadow-soft);
+        }
+
+        .setting-group-title {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .setting-group-title .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 0;
+            border: 2px solid var(--border-color);
+        }
+
+        .dot.yellow {
+            background: var(--accent-yellow);
+        }
+
+        .dot.blue {
+            background: var(--accent-blue);
+        }
+
+        .dot.green {
+            background: var(--accent-green);
+        }
+
+        .dot.pink {
+            background: var(--accent-pink);
+        }
+
+        .dot.purple {
+            background: var(--accent-purple);
+        }
+
+        .dot.orange {
+            background: var(--accent-orange);
+        }
+
+        /* Form Elements */
+        .form-field {
+            margin-bottom: 10px;
+        }
+
+        .form-field:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 8px 12px;
+            font-family: var(--font);
+            font-size: 13px;
+            font-weight: 500;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--radius-sm);
+            background: var(--bg-primary);
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .form-input:focus {
+            box-shadow: 3px 3px 0px var(--accent-yellow);
+        }
+
+        .form-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 8px 12px;
+            font-family: var(--font);
+            font-size: 13px;
+            font-weight: 600;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--radius-sm);
+            background: var(--bg-primary);
+            cursor: pointer;
+            outline: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%231a1a1a' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+        }
+
+        .form-select:focus {
+            box-shadow: 3px 3px 0px var(--accent-yellow);
+        }
+
+        .form-textarea {
+            width: 100%;
+            padding: 8px 12px;
+            font-family: var(--font);
+            font-size: 12px;
+            font-weight: 500;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--radius-sm);
+            background: var(--bg-primary);
+            outline: none;
+            resize: vertical;
+            min-height: 60px;
+            transition: var(--transition);
+        }
+
+        .form-textarea:focus {
+            box-shadow: 3px 3px 0px var(--accent-yellow);
+        }
+
+        .file-upload {
+            padding: 10px;
+            border: var(--border-width) dashed var(--border-color);
+            border-radius: var(--radius-sm);
+            background: var(--bg-primary);
+            text-align: center;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .file-upload:hover {
+            background: var(--accent-yellow-light);
+        }
+
+        .file-upload .upload-icon {
+            font-size: 20px;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .file-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 3px 10px;
+            background: var(--accent-blue);
+            border: 2px solid var(--border-color);
+            border-radius: 0;
+            font-size: 11px;
+            font-weight: 600;
+            margin: 3px 2px;
+        }
+
+        .file-chip .remove {
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 13px;
+        }
+
+        /* ============ EDIT MODAL ============ */
+        .modal-preview {
+            background: var(--bg-card);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--radius);
+            box-shadow: 8px 8px 0px #1a1a1a;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: var(--border-width) solid var(--border-color);
+            background: var(--accent-purple);
+        }
+
+        .modal-header h3 {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .modal-section {
+            margin-bottom: 16px;
+        }
+
+        .modal-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .modal-section-title {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .override-badge {
+            font-size: 9px;
+            padding: 2px 8px;
+            border-radius: var(--radius-pill);
+            border: 2px solid var(--border-color);
+            font-weight: 700;
+        }
+
+        .override-badge.default {
+            background: #e8e8e8;
+        }
+
+        .override-badge.custom {
+            background: var(--accent-yellow);
+        }
+
+        .modal-footer {
+            padding: 14px 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            border-top: var(--border-width) solid var(--border-color);
+            background: var(--bg-primary);
+        }
+
+        /* ============ IMPORT ANALYSIS ============ */
+        .analysis-card {
+            background: var(--bg-card);
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 12px 14px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        .analysis-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .analysis-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 0;
+            border: 2px solid var(--border-color);
+            flex-shrink: 0;
+        }
+
+        .analysis-info h4 {
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .analysis-info p {
+            font-size: 10px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .analysis-count {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        /* ============ COLOR PALETTE ============ */
+        .palette {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .swatch {
+            width: 60px;
+            height: 60px;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--radius-sm);
+            box-shadow: 3px 3px 0px #1a1a1a;
+            display: flex;
+            align-items: flex-end;
+            padding: 4px;
+        }
+
+        .swatch span {
+            font-size: 8px;
+            font-weight: 700;
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.8);
+            padding: 1px 4px;
+            border-radius: 0;
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media (max-width: 900px) {
+            .preview-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .panel-container {
+                position: static;
+                display: flex;
+                justify-content: center;
+            }
+
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ============ ANIMATIONS ============ */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .job-card,
+        .mode-card,
+        .setting-group,
+        .analysis-card {
+            animation: fadeInUp 0.3s ease forwards;
+        }
+
+        .job-card:nth-child(2) {
+            animation-delay: 0.05s;
+        }
+
+        .job-card:nth-child(3) {
+            animation-delay: 0.1s;
+        }
+
+        .mode-card:nth-child(2) {
+            animation-delay: 0.05s;
+        }
+
+        .mode-card:nth-child(3) {
+            animation-delay: 0.1s;
+        }
+
+        .mode-card:nth-child(4) {
+            animation-delay: 0.15s;
+        }
+
+        /* ============ DIVIDER ============ */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 12px 0;
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 2px;
+            background: var(--border-color);
+            opacity: 0.15;
+        }
+
+        /* Prompt toggle */
+        .prompt-toggle {
+            display: flex;
+            border: var(--border-width) solid var(--border-color);
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        .prompt-toggle-btn {
+            flex: 1;
+            padding: 7px 10px;
+            font-family: var(--font);
+            font-size: 11px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            background: var(--bg-primary);
+            transition: var(--transition);
+        }
+
+        .prompt-toggle-btn.active {
+            background: var(--accent-yellow);
+        }
+
+        .prompt-toggle-btn:first-child {
+            border-right: var(--border-width) solid var(--border-color);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- PAGE HEADER -->
+    <div class="page-header">
+        <h1>⚡ <span>ColdCraft AI</span></h1>
+        <p>Neo-Brutalism Design System Preview — Chrome Extension UI</p>
+    </div>
+
+    <div class="preview-grid">
+
+        <!-- ============ LEFT: SIDE PANEL ============ -->
+        <div class="panel-container">
+            <div class="side-panel pixel-corners">
+                <!-- Header -->
+                <div class="panel-header">
+                    <div class="panel-logo">
+                        <span class="icon">⚡</span>
+                        ColdCraft AI
+                    </div>
+                    <div class="header-actions">
+                        <div class="icon-btn" title="Export">📤</div>
+                        <div class="icon-btn" title="Settings">⚙️</div>
+                    </div>
+                </div>
+
+                <!-- Tab Navigation -->
+                <div class="tab-nav">
+                    <button class="tab-btn" onclick="showTab('dashboard', this)">
+                        <span class="tab-icon">📊</span>
+                        Dashboard
+                    </button>
+                    <button class="tab-btn active" onclick="showTab('jobs', this)">
+                        <span class="tab-icon">💼</span>
+                        Jobs
+                    </button>
+                    <button class="tab-btn" onclick="showTab('search', this)">
+                        <span class="tab-icon">🔍</span>
+                        Search
+                    </button>
+                    <button class="tab-btn" onclick="showTab('settings', this)">
+                        <span class="tab-icon">⚙️</span>
+                        Settings
+                    </button>
+                </div>
+
+                <!-- Panel Content -->
+                <div class="panel-content" id="panel-content">
+
+                    <!-- Dashboard Tab -->
+                    <div class="tab-content" id="tab-dashboard" style="display:none;">
+                        <div style="margin-bottom: 16px;">
+                            <h3 style="font-size:15px; font-weight:700; margin-bottom:4px;">👋 Hey, Rahul!</h3>
+                            <p style="font-size:12px; color:var(--text-secondary);">Ready to craft some emails?</p>
+                        </div>
+
+                        <!-- Quick Stats -->
+                        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:16px;">
+                            <div
+                                style="background:var(--accent-green); border:var(--border-width) solid var(--border-color); border-radius:var(--radius-sm); padding:10px; text-align:center; box-shadow:2px 2px 0 #1a1a1a;">
+                                <div style="font-size:22px; font-weight:700;">12</div>
+                                <div style="font-size:9px; font-weight:600;">SENT</div>
+                            </div>
+                            <div
+                                style="background:var(--accent-yellow); border:var(--border-width) solid var(--border-color); border-radius:var(--radius-sm); padding:10px; text-align:center; box-shadow:2px 2px 0 #1a1a1a;">
+                                <div style="font-size:22px; font-weight:700;">5</div>
+                                <div style="font-size:9px; font-weight:600;">PENDING</div>
+                            </div>
+                            <div
+                                style="background:var(--accent-blue); border:var(--border-width) solid var(--border-color); border-radius:var(--radius-sm); padding:10px; text-align:center; box-shadow:2px 2px 0 #1a1a1a;">
+                                <div style="font-size:22px; font-weight:700;">24</div>
+                                <div style="font-size:9px; font-weight:600;">TOTAL</div>
+                            </div>
+                        </div>
+
+                        <!-- Input Modes -->
+                        <div class="mode-card yellow pixel-card"
+                            onclick="showTab('jobs', document.querySelectorAll('.tab-btn')[1])">
+                            <div class="mode-icon">🌐</div>
+                            <div class="mode-info">
+                                <h3>Extract This Page</h3>
+                                <p>Scrape jobs from active tab</p>
+                            </div>
+                            <span class="mode-arrow">→</span>
+                        </div>
+
+                        <div class="mode-card blue pixel-card">
+                            <div class="mode-icon">🔗</div>
+                            <div class="mode-info">
+                                <h3>Paste URL(s)</h3>
+                                <p>Enter career page links</p>
+                            </div>
+                            <span class="mode-arrow">→</span>
+                        </div>
+
+                        <div class="mode-card green pixel-card"
+                            onclick="showTab('search', document.querySelectorAll('.tab-btn')[2])">
+                            <div class="mode-icon">🔍</div>
+                            <div class="mode-info">
+                                <h3>Search Jobs</h3>
+                                <p>Find jobs by keyword</p>
+                            </div>
+                            <span class="mode-arrow">→</span>
+                        </div>
+
+                        <div class="divider">or bring your own</div>
+
+                        <div class="mode-card pink pixel-card">
+                            <div class="mode-icon">📋</div>
+                            <div class="mode-info">
+                                <h3>Import List</h3>
+                                <p>Upload CSV contacts</p>
+                            </div>
+                            <span class="mode-arrow">→</span>
+                        </div>
+
+                        <div class="mode-card purple pixel-card">
+                            <div class="mode-icon">📄</div>
+                            <div class="mode-info">
+                                <h3>Download Template</h3>
+                                <p>Get CSV template to fill</p>
+                            </div>
+                            <span class="mode-arrow">↓</span>
+                        </div>
+                    </div>
+
+                    <!-- Jobs Tab -->
+                    <div class="tab-content" id="tab-jobs">
+                        <div class="jobs-header">
+                            <h3>Scraped Jobs</h3>
+                            <span class="jobs-count">3 found</span>
+                        </div>
+
+                        <!-- Job 1 -->
+                        <div class="job-card pixel-card">
+                            <div class="job-card-header">
+                                <div style="display:flex; align-items:flex-start;">
+                                    <div class="checkbox">✓</div>
+                                    <div>
+                                        <div class="job-title">Sr. Software Engineer</div>
+                                        <div class="job-company">Nike Inc.</div>
+                                    </div>
+                                </div>
+                                <span class="status-badge ready">✅ Ready</span>
+                            </div>
+                            <div class="job-email">
+                                📬 hr@nike.com <span class="verified">✓ Verified</span>
+                            </div>
+                            <div class="job-actions">
+                                <button class="btn btn-sm btn-primary">👁 Preview</button>
+                                <button class="btn btn-sm btn-purple">✏️ Edit</button>
+                                <button class="btn btn-sm btn-green">📤 Send</button>
+                            </div>
+                        </div>
+
+                        <!-- Job 2 -->
+                        <div class="job-card pixel-card">
+                            <div class="job-card-header">
+                                <div style="display:flex; align-items:flex-start;">
+                                    <div class="checkbox">✓</div>
+                                    <div>
+                                        <div class="job-title">ML Engineer</div>
+                                        <div class="job-company">Google</div>
+                                    </div>
+                                </div>
+                                <span class="status-badge pending">⏳ Pending</span>
+                            </div>
+                            <div class="job-email">
+                                📬 careers@google.com <span class="suggested">⚠ Suggested</span>
+                            </div>
+                            <div class="job-actions">
+                                <button class="btn btn-sm btn-primary">👁 Preview</button>
+                                <button class="btn btn-sm btn-purple">✏️ Edit</button>
+                                <button class="btn btn-sm btn-secondary">✓ Accept</button>
+                            </div>
+                        </div>
+
+                        <!-- Job 3 -->
+                        <div class="job-card pixel-card">
+                            <div class="job-card-header">
+                                <div style="display:flex; align-items:flex-start;">
+                                    <div class="checkbox" style="background:var(--bg-card);">&nbsp;</div>
+                                    <div>
+                                        <div class="job-title">Product Designer</div>
+                                        <div class="job-company">Figma</div>
+                                    </div>
+                                </div>
+                                <span class="status-badge error">🟠 No Email</span>
+                            </div>
+                            <div class="job-email">
+                                <input class="form-input" style="padding:4px 8px; font-size:11px; width: 200px;"
+                                    placeholder="Enter email address...">
+                            </div>
+                            <div class="job-actions">
+                                <button class="btn btn-sm btn-primary">👁 Preview</button>
+                                <button class="btn btn-sm btn-purple">✏️ Edit</button>
+                                <button class="btn btn-sm btn-secondary" disabled style="opacity:0.5;">📤 Send</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Search Tab -->
+                    <div class="tab-content" id="tab-search" style="display:none;">
+                        <div style="margin-bottom:12px;">
+                            <div class="form-label">SEARCH JOBS</div>
+                            <div style="display:flex; gap:8px;">
+                                <input class="form-input" placeholder="React Developer in Mumbai..." style="flex:1;">
+                                <button class="btn btn-sm btn-primary" style="padding:8px 14px;">🔍</button>
+                            </div>
+                        </div>
+                        <div style="margin-bottom:12px;">
+                            <div class="form-label">API SOURCE</div>
+                            <select class="form-select">
+                                <option>JSearch (LinkedIn/Indeed)</option>
+                                <option>Adzuna</option>
+                                <option>The Muse</option>
+                                <option>RemoteOK</option>
+                            </select>
+                        </div>
+                        <div class="divider">results</div>
+                        <div class="job-card pixel-card">
+                            <div class="job-title">React Developer</div>
+                            <div class="job-company">TCS — Mumbai, India</div>
+                            <div style="font-size:10px; color:var(--text-muted); margin:6px 0;">Posted 2 days ago</div>
+                            <button class="btn btn-sm btn-primary" style="width:100%; justify-content:center;">⚡ Scrape
+                                & Generate</button>
+                        </div>
+                        <div class="job-card pixel-card">
+                            <div class="job-title">Frontend Engineer</div>
+                            <div class="job-company">Razorpay — Bangalore, India</div>
+                            <div style="font-size:10px; color:var(--text-muted); margin:6px 0;">Posted 5 days ago</div>
+                            <button class="btn btn-sm btn-primary" style="width:100%; justify-content:center;">⚡ Scrape
+                                & Generate</button>
+                        </div>
+                    </div>
+
+                    <!-- Quick Settings Tab -->
+                    <div class="tab-content" id="tab-settings" style="display:none;">
+                        <div class="form-field">
+                            <div class="form-label">YOUR NAME</div>
+                            <input class="form-input" value="Rahul Sharma" />
+                        </div>
+                        <div class="form-field">
+                            <div class="form-label">COMPANY</div>
+                            <input class="form-input" value="TechSolutions Pvt. Ltd." />
+                        </div>
+                        <div class="form-field">
+                            <div class="form-label">TONE</div>
+                            <select class="form-select">
+                                <option>🏢 Professional</option>
+                                <option>😊 Friendly</option>
+                                <option>💪 Bold</option>
+                                <option>✂️ Concise</option>
+                            </select>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-label">CUSTOM INSTRUCTIONS</div>
+                            <textarea class="form-textarea"
+                                placeholder="e.g. Always mention my AWS certification..."></textarea>
+                        </div>
+
+                        <div style="margin-top:12px;">
+                            <button class="btn btn-md btn-primary" style="width:100%; justify-content:center;">
+                                Open Full Settings →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer -->
+                <div class="panel-footer">
+                    <div class="auto-send-row">
+                        <span class="auto-send-label">🤖 Auto-Send Mode</span>
+                        <div class="toggle active" onclick="this.classList.toggle('active')">
+                            <div class="toggle-knob"></div>
+                        </div>
+                    </div>
+                    <button class="btn btn-lg btn-primary">
+                        🚀 Send All Selected (2)
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============ RIGHT: COMPONENTS ============ -->
+        <div class="components-column">
+
+            <!-- COLOR PALETTE -->
+            <div class="component-section pixel-corners">
+                <div class="section-title">🎨 Color Palette <span class="badge">THEME</span></div>
+                <div class="palette">
+                    <div class="swatch" style="background:var(--accent-yellow);"><span>#FFD60A</span></div>
+                    <div class="swatch" style="background:var(--accent-blue);"><span>#BDE0FE</span></div>
+                    <div class="swatch" style="background:var(--accent-green);"><span>#B8F2B8</span></div>
+                    <div class="swatch" style="background:var(--accent-pink);"><span>#FFB3C6</span></div>
+                    <div class="swatch" style="background:var(--accent-purple);"><span>#C4B5FD</span></div>
+                    <div class="swatch" style="background:var(--accent-orange);"><span>#FDBA74</span></div>
+                    <div class="swatch" style="background:var(--bg-primary);"><span>#FFFDF5</span></div>
+                    <div class="swatch" style="background:var(--text-primary);"><span style="color:#fff;">#1A1A1A</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SETTINGS ARCHITECTURE -->
+            <div class="component-section pixel-corners">
+                <div class="section-title">⚙️ Settings Architecture <span class="badge">OPTIONS PAGE</span></div>
+                <p style="font-size:12px; color:var(--text-secondary); margin-bottom:16px;">
+                    Each section is independent — no overlapping. Defaults apply everywhere until overridden per-job.
+                </p>
+                <div class="settings-grid">
+                    <div class="setting-group">
+                        <div class="setting-group-title"><span class="dot yellow"></span> Profile</div>
+                        <div class="form-field">
+                            <div class="form-label">NAME</div>
+                            <input class="form-input" value="Rahul Sharma" />
+                        </div>
+                        <div class="form-field">
+                            <div class="form-label">ROLE</div>
+                            <input class="form-input" value="Full Stack Developer" />
+                        </div>
+                        <div class="form-field">
+                            <div class="form-label">COMPANY</div>
+                            <input class="form-input" value="TechSolutions" />
+                        </div>
+                    </div>
+
+                    <div class="setting-group">
+                        <div class="setting-group-title"><span class="dot blue"></span> API Keys</div>
+                        <div class="form-field">
+                            <div class="form-label">LLM PROVIDER</div>
+                            <select class="form-select">
+                                <option>Groq (Free)</option>
+                                <option>OpenAI</option>
+                                <option>Google Gemini</option>
+                            </select>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-label">API KEY</div>
+                            <input class="form-input" type="password" value="gsk_xxxxxxxxxxxx" />
+                        </div>
+                        <div class="form-field">
+                            <div class="form-label">JOB SEARCH API</div>
+                            <input class="form-input" placeholder="JSearch key (optional)" />
+                        </div>
+                    </div>
+
+                    <div class="setting-group">
+                        <div class="setting-group-title"><span class="dot green"></span> Email Account</div>
+                        <div class="form-field">
+                            <div class="form-label">GMAIL ADDRESS</div>
+                            <input class="form-input" value="rahul@gmail.com" />
+                        </div>
+                        <div class="form-field">
+                            <div class="form-label">APP PASSWORD</div>
+                            <input class="form-input" type="password" value="xxxx xxxx xxxx" />
+                        </div>
+                        <div class="form-field">
+                            <div class="form-label">SIGNATURE</div>
+                            <textarea class="form-textarea"
+                                style="min-height:40px;">Best regards, Rahul Sharma</textarea>
+                        </div>
+                    </div>
+
+                    <div class="setting-group">
+                        <div class="setting-group-title"><span class="dot pink"></span> Default Attachments</div>
+                        <div class="form-field">
+                            <div class="form-label">RESUME</div>
+                            <div class="file-upload">
+                                <span class="upload-icon">📄</span>
+                                resume_rahul.pdf ✓
+                            </div>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-label">PORTFOLIO LINKS</div>
+                            <div>
+                                <span class="file-chip">github.com/rahul <span class="remove">×</span></span>
+                                <span class="file-chip">portfolio.dev <span class="remove">×</span></span>
+                            </div>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-label">OTHER FILES</div>
+                            <div class="file-upload">
+                                <span class="upload-icon">➕</span>
+                                Add attachments
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="setting-group">
+                        <div class="setting-group-title"><span class="dot purple"></span> Prompt Config</div>
+                        <div class="prompt-toggle">
+                            <button class="prompt-toggle-btn active">🔧 Embedded</button>
+                            <button class="prompt-toggle-btn">✏️ Custom</button>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-label">TONE</div>
+                            <select class="form-select">
+                                <option>🏢 Professional</option>
+                                <option>😊 Friendly</option>
+                                <option>💪 Bold</option>
+                                <option>✂️ Concise</option>
+                            </select>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-label">EXTRA INSTRUCTIONS</div>
+                            <textarea class="form-textarea" placeholder="Custom instructions..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="setting-group">
+                        <div class="setting-group-title"><span class="dot orange"></span> Automation</div>
+                        <div class="form-field">
+                            <div class="form-label">AUTO-SEND</div>
+                            <div style="display:flex;align-items:center;gap:10px;">
+                                <div class="toggle active" onclick="this.classList.toggle('active')"
+                                    style="flex-shrink:0;">
+                                    <div class="toggle-knob"></div>
+                                </div>
+                                <span style="font-size:12px;font-weight:500;">Enabled</span>
+                            </div>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-label">DELAY BETWEEN EMAILS</div>
+                            <select class="form-select">
+                                <option>5 seconds</option>
+                                <option>10 seconds</option>
+                                <option>30 seconds</option>
+                            </select>
+                        </div>
+                        <div class="form-field">
+                            <div class="form-label">SEND LIMIT / SESSION</div>
+                            <input class="form-input" value="50" type="number" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- EDIT MODAL (Review Mode) -->
+            <div class="component-section pixel-corners">
+                <div class="section-title">✏️ Edit Modal <span class="badge">REVIEW MODE</span></div>
+                <p style="font-size:12px; color:var(--text-secondary); margin-bottom:16px;">
+                    When user clicks "Edit" on a job → this modal opens. Override defaults per-job.
+                </p>
+                <div class="modal-preview pixel-corners">
+                    <div class="modal-header">
+                        <h3>✏️ Edit — Sr. Software Engineer @ Nike</h3>
+                        <span style="cursor:pointer; font-size:18px; font-weight:700;">✕</span>
+                    </div>
+                    <div class="modal-body">
+                        <div class="modal-section">
+                            <div class="modal-section-title">
+                                RECIPIENT EMAIL
+                                <span class="override-badge default">Using detected</span>
+                            </div>
+                            <input class="form-input" value="hr@nike.com" />
+                        </div>
+
+                        <div class="modal-section">
+                            <div class="modal-section-title">
+                                COLD EMAIL
+                                <span class="override-badge custom">✏️ Edited</span>
+                            </div>
+                            <textarea class="form-textarea" style="min-height:100px;">Dear Hiring Team,
+
+I noticed Nike is looking for a Sr. Software Engineer with expertise in React and Node.js. At TechSolutions, we specialize in exactly these technologies...
+
+Here's our relevant work:
+- https://github.com/rahul/react-project
+- https://portfolio.dev/showcase
+
+Would love to discuss how we can help. Available for a call this week.
+
+Best regards,
+Rahul Sharma</textarea>
+                        </div>
+
+                        <div class="modal-section">
+                            <div class="modal-section-title">
+                                RESUME
+                                <span class="override-badge default">Using default</span>
+                            </div>
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <span class="file-chip">📄 resume_rahul.pdf <span class="remove">×</span></span>
+                                <button class="btn btn-sm btn-secondary" style="font-size:10px;">Change</button>
+                            </div>
+                        </div>
+
+                        <div class="modal-section">
+                            <div class="modal-section-title">
+                                PORTFOLIO & ATTACHMENTS
+                                <span class="override-badge custom">✏️ Custom</span>
+                            </div>
+                            <div style="margin-bottom:8px;">
+                                <span class="file-chip">🔗 github.com/rahul/react-project <span
+                                        class="remove">×</span></span>
+                                <span class="file-chip">📎 nike-case-study.pdf <span class="remove">×</span></span>
+                            </div>
+                            <div class="file-upload" style="padding:8px;">
+                                <span>➕ Add more attachments</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-md btn-secondary">Cancel</button>
+                        <button class="btn btn-md btn-primary">💾 Save Changes</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- IMPORT ANALYSIS -->
+            <div class="component-section pixel-corners">
+                <div class="section-title">📋 Import Analysis <span class="badge">AFTER CSV IMPORT</span></div>
+                <p style="font-size:12px; color:var(--text-secondary); margin-bottom:16px;">
+                    After importing a CSV, ColdCraft analyzes every row and categorizes by completeness.
+                </p>
+                <div class="analysis-card">
+                    <div class="analysis-left">
+                        <div class="analysis-dot" style="background:var(--accent-green);"></div>
+                        <div class="analysis-info">
+                            <h4>Ready to Send</h4>
+                            <p>Has email + has cold email</p>
+                        </div>
+                    </div>
+                    <div class="analysis-count" style="color:var(--accent-green-dark);">4</div>
+                </div>
+                <div class="analysis-card">
+                    <div class="analysis-left">
+                        <div class="analysis-dot" style="background:var(--accent-blue);"></div>
+                        <div class="analysis-info">
+                            <h4>Needs Email Generation</h4>
+                            <p>Has email, no cold email yet</p>
+                        </div>
+                    </div>
+                    <div class="analysis-count" style="color:var(--accent-blue-dark);">8</div>
+                </div>
+                <div class="analysis-card">
+                    <div class="analysis-left">
+                        <div class="analysis-dot" style="background:var(--accent-yellow);"></div>
+                        <div class="analysis-info">
+                            <h4>Can Try Finding Email</h4>
+                            <p>Has URL or company, no email</p>
+                        </div>
+                    </div>
+                    <div class="analysis-count" style="color:#b8960a;">6</div>
+                </div>
+                <div class="analysis-card">
+                    <div class="analysis-left">
+                        <div class="analysis-dot" style="background:var(--accent-orange);"></div>
+                        <div class="analysis-info">
+                            <h4>Needs Manual Email</h4>
+                            <p>Only company name available</p>
+                        </div>
+                    </div>
+                    <div class="analysis-count" style="color:#c97a1a;">5</div>
+                </div>
+                <div class="analysis-card">
+                    <div class="analysis-left">
+                        <div class="analysis-dot" style="background:var(--accent-pink);"></div>
+                        <div class="analysis-info">
+                            <h4>Incomplete</h4>
+                            <p>Missing required data</p>
+                        </div>
+                    </div>
+                    <div class="analysis-count" style="color:var(--accent-pink-dark);">2</div>
+                </div>
+                <div style="margin-top:12px; display:flex; gap:8px;">
+                    <button class="btn btn-md btn-primary" style="flex:1; justify-content:center;">⚡ Process
+                        All</button>
+                    <button class="btn btn-md btn-secondary" style="flex:1; justify-content:center;">📋 Review
+                        List</button>
+                </div>
+            </div>
+
+            <!-- BUTTON STYLES -->
+            <div class="component-section pixel-corners">
+                <div class="section-title">🔘 Button Styles <span class="badge">COMPONENTS</span></div>
+                <div style="display:flex; flex-wrap:wrap; gap:10px; margin-bottom:16px;">
+                    <button class="btn btn-md btn-primary">Primary</button>
+                    <button class="btn btn-md btn-secondary">Secondary</button>
+                    <button class="btn btn-md btn-blue">Blue</button>
+                    <button class="btn btn-md btn-green">Green</button>
+                    <button class="btn btn-md btn-pink">Pink</button>
+                    <button class="btn btn-md btn-purple">Purple</button>
+                </div>
+                <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;">
+                    <button class="btn btn-sm btn-primary">Small Primary</button>
+                    <button class="btn btn-sm btn-secondary">Small Secondary</button>
+                    <button class="btn btn-sm btn-green">Small Green</button>
+                </div>
+                <button class="btn btn-lg btn-primary">🚀 Large Full-Width Button</button>
+            </div>
+
+            <!-- STATUS BADGES -->
+            <div class="component-section pixel-corners">
+                <div class="section-title">🏷️ Status Badges <span class="badge">COMPONENTS</span></div>
+                <div style="display:flex; flex-wrap:wrap; gap:8px;">
+                    <span class="status-badge ready">✅ Ready</span>
+                    <span class="status-badge pending">⏳ Pending</span>
+                    <span class="status-badge sent">📤 Sent</span>
+                    <span class="status-badge error">🟠 No Email</span>
+                    <span class="status-badge" style="background:var(--accent-purple);">✏️ Edited</span>
+                    <span class="status-badge" style="background:var(--accent-orange);">⚠️ Suggested</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function showTab(tabId, btn) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+            // Show selected tab
+            document.getElementById('tab-' + tabId).style.display = 'block';
+            // Update active button
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        // Prompt toggle
+        document.querySelectorAll('.prompt-toggle-btn').forEach(btn => {
+            btn.addEventListener('click', function () {
+                this.parentElement.querySelectorAll('.prompt-toggle-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+
+</html>

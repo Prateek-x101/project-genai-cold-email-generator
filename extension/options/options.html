@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ColdCraft AI — Options</title>
+  <link rel="stylesheet" href="../styles/shared.css">
+  <link rel="stylesheet" href="options.css">
+</head>
+<body class="pixel-corners">
+  <div class="options-container">
+    <!-- Header -->
+    <header class="options-header">
+      <div class="logo-area">
+        <span class="logo-icon">⚡</span>
+        <h1>ColdCraft AI</h1>
+        <span class="badge-v">V1.0</span>
+      </div>
+      <div class="header-actions">
+        <div id="backend-status" class="status-badge error">
+          <span class="status-dot"></span>
+          <span class="status-text">Backend Offline</span>
+        </div>
+        <button id="save-all-btn" class="btn btn-sm btn-primary">Save All</button>
+      </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <div class="options-workspace">
+      <!-- Sidebar Navigation -->
+      <aside class="options-sidebar">
+        <nav class="nav-menu">
+          <a href="#profile" class="nav-item active" data-tab="profile">
+            <span class="nav-icon">👤</span> Profile
+          </a>
+          <a href="#api" class="nav-item" data-tab="api">
+            <span class="nav-icon">🔑</span> API Keys
+          </a>
+          <a href="#email" class="nav-item" data-tab="email">
+            <span class="nav-icon">📧</span> Email SMTP
+          </a>
+          <a href="#attachments" class="nav-item" data-tab="attachments">
+            <span class="nav-icon">📎</span> Attachments
+          </a>
+          <a href="#prompt" class="nav-item" data-tab="prompt">
+            <span class="nav-icon">✍️</span> Prompt Config
+          </a>
+          <a href="#automation" class="nav-item" data-tab="automation">
+            <span class="nav-icon">⚙️</span> Automation
+          </a>
+          <a href="#system" class="nav-item" data-tab="system">
+            <span class="nav-icon">💾</span> System
+          </a>
+        </nav>
+        <div class="sidebar-footer">
+          <span class="help-link">Need help? <a href="https://github.com" target="_blank">Read Docs</a></span>
+        </div>
+      </aside>
+
+      <!-- Main Settings Panels -->
+      <main class="options-content">
+        <!-- 1. Profile Section -->
+        <section id="panel-profile" class="settings-panel active">
+          <div class="setting-group">
+            <h2 class="setting-group-title">
+              <span class="setting-dot yellow"></span> Personal & Company Profile
+            </h2>
+            <p class="section-desc">Provide information about yourself and your company. The AI uses this data to customize and write the cold email from your perspective.</p>
+            
+            <div class="form-grid">
+              <div class="form-field col-6">
+                <label class="form-label" for="profile-name">Your Full Name</label>
+                <input class="form-input" type="text" id="profile-name" placeholder="John Smith" required>
+              </div>
+              <div class="form-field col-6">
+                <label class="form-label" for="profile-role">Your Role / Title</label>
+                <input class="form-input" type="text" id="profile-role" placeholder="Senior Developer / founder" required>
+              </div>
+              <div class="form-field col-12">
+                <label class="form-label" for="profile-company">Your Company Name (Optional / For Agencies/Freelancers)</label>
+                <input class="form-input" type="text" id="profile-company" placeholder="Acme Inc.">
+              </div>
+              <div class="form-field col-12">
+                <label class="form-label" for="profile-bio">Short Professional Bio</label>
+                <textarea class="form-textarea" id="profile-bio" rows="3" placeholder="Tell the LLM about your accomplishments, background, or current goals..."></textarea>
+              </div>
+              <div class="form-field col-12">
+                <label class="form-label" for="profile-skills">Core Skills / Offerings (comma-separated)</label>
+                <input class="form-input" type="text" id="profile-skills" placeholder="React, Node.js, AI integration, UI/UX Design">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. API Keys Section -->
+        <section id="panel-api" class="settings-panel">
+          <div class="setting-group">
+            <h2 class="setting-group-title">
+              <span class="setting-dot blue"></span> AI & Job Search API Keys
+            </h2>
+            <p class="section-desc">Select your preferred AI provider and enter your API keys. Keys are stored safely in local Chrome storage only.</p>
+
+            <div class="form-grid">
+              <div class="form-field col-6">
+                 <label class="form-label" for="api-llm-provider">LLM Provider</label>
+                 <select class="form-select" id="api-llm-provider">
+                   <!-- Will be populated dynamically or static fallback -->
+                   <option value="groq">Groq (Free & Fast)</option>
+                   <option value="openai">OpenAI</option>
+                   <option value="gemini">Google Gemini</option>
+                 </select>
+              </div>
+              <div class="form-field col-6">
+                <label class="form-label" for="api-llm-key">LLM API Key</label>
+                <div class="password-wrapper">
+                  <input class="form-input" type="password" id="api-llm-key" placeholder="Enter provider API key">
+                  <button class="toggle-password-btn" type="button">👁️</button>
+                </div>
+                <span class="field-hint" id="llm-key-hint"></span>
+              </div>
+              <div class="form-field col-12">
+                <label class="form-label" for="api-llm-model">LLM Model</label>
+                <div style="display:flex; gap:8px;">
+                  <select class="form-select" id="api-llm-model" style="flex:1;">
+                    <option value="llama-3.3-70b-versatile">llama-3.3-70b-versatile (Default)</option>
+                  </select>
+                  <button id="fetch-models-btn" class="btn btn-sm btn-secondary" type="button" style="padding: 0 16px;">🔄 Fetch Models</button>
+                </div>
+              </div>
+
+              <div class="form-field col-12">
+                <hr class="form-divider">
+              </div>
+
+              <div class="form-field col-6">
+                <label class="form-label" for="api-search-provider">Job Search Provider</label>
+                <select class="form-select" id="api-search-provider">
+                  <option value="jsearch">JSearch (RapidAPI)</option>
+                  <option value="adzuna">Adzuna</option>
+                  <option value="remoteok">RemoteOK (Free, No Key)</option>
+                </select>
+              </div>
+              <div class="form-field col-6">
+                <label class="form-label" for="api-search-key">Search API Key</label>
+                <div class="password-wrapper">
+                  <input class="form-input" type="password" id="api-search-key" placeholder="Enter search provider API key">
+                  <button class="toggle-password-btn" type="button">👁️</button>
+                </div>
+                <span class="field-hint" id="search-key-hint"></span>
+              </div>
+              
+              <div class="form-field col-12 action-row">
+                <button id="test-connection-btn" class="btn btn-sm btn-secondary">⚡ Test Connection to Server</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 3. Email Account Section -->
+        <section id="panel-email" class="settings-panel">
+          <div class="setting-group">
+            <h2 class="setting-group-title">
+              <span class="setting-dot green"></span> Gmail Account Configuration (Optional)
+            </h2>
+            <p class="section-desc">Optional: Configure SMTP credentials only if you want to send emails directly from the extension. If left blank, you can still copy email drafts or compose them in Gmail Web.</p>
+
+            <div class="form-grid">
+              <div class="form-field col-12">
+                <label class="form-label" for="email-address">Gmail Address (Optional)</label>
+                <input class="form-input" type="email" id="email-address" placeholder="yourname@gmail.com">
+              </div>
+              <div class="form-field col-12">
+                <label class="form-label" for="email-password">Gmail App Password (Optional)</label>
+                <div class="password-wrapper">
+                  <input class="form-input" type="password" id="email-password" placeholder="xxxx xxxx xxxx xxxx">
+                  <button class="toggle-password-btn" type="button">👁️</button>
+                </div>
+                <span class="field-hint">Required only for direct background sending. Google requires an <a href="https://myaccount.google.com/apppasswords" target="_blank">App Password</a> for SMTP.</span>
+              </div>
+              <div class="form-field col-12">
+                <label class="form-label" for="email-signature">Email Signature (Plain text or HTML)</label>
+                <textarea class="form-textarea" id="email-signature" rows="4" placeholder="Best regards,&#10;John Smith&#10;www.acme.com"></textarea>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 4. Default Attachments Section -->
+        <section id="panel-attachments" class="settings-panel">
+          <div class="setting-group">
+            <h2 class="setting-group-title">
+              <span class="setting-dot pink"></span> Default Attachments & Portfolio
+            </h2>
+            <p class="section-desc">Upload your default resume and add portfolio website links. Dynamic skills mapping will grab relevant links based on the job details.</p>
+
+            <div class="form-grid">
+              <!-- Resume Upload -->
+              <div class="form-field col-12">
+                <label class="form-label">Default Resume (PDF format, max 5MB)</label>
+                <div class="file-upload" id="resume-dropzone">
+                  <span class="upload-icon">📄</span>
+                  <span class="upload-text">Click to choose or Drag & Drop PDF here</span>
+                  <input type="file" id="resume-input" accept="application/pdf" style="display: none;">
+                </div>
+                <div id="resume-status" class="file-status-row hidden">
+                  <span class="file-name" id="resume-name-display">my_resume.pdf</span>
+                  <button type="button" class="btn btn-sm btn-danger remove-file-btn" id="remove-resume-btn">Remove</button>
+                </div>
+              </div>
+
+              <!-- Portfolio Links -->
+              <div class="form-field col-12">
+                <div class="dynamic-list-header">
+                  <label class="form-label">Portfolio & Project Links</label>
+                  <button type="button" class="btn btn-sm btn-secondary" id="add-portfolio-btn">+ Add Link</button>
+                </div>
+                <div class="dynamic-links-list" id="portfolio-links-container">
+                  <!-- Portfolio link cards loaded dynamically -->
+                </div>
+              </div>
+
+              <!-- Other Files -->
+              <div class="form-field col-12">
+                <label class="form-label">Other Attachments (Images, Cover Letters, etc., max 5MB each)</label>
+                <div class="file-upload" id="attachments-dropzone">
+                  <span class="upload-icon">📁</span>
+                  <span class="upload-text">Upload other supporting documents</span>
+                  <input type="file" id="attachments-input" multiple style="display: none;">
+                </div>
+                <div class="attached-chips-container" id="other-files-container">
+                  <!-- Attached file chips here -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. Prompt Configuration Section -->
+        <section id="panel-prompt" class="settings-panel">
+          <div class="setting-group">
+            <h2 class="setting-group-title">
+              <span class="setting-dot purple"></span> AI Cold Email Prompt settings
+            </h2>
+            <p class="section-desc">Customize how the AI writes cold emails. Choose between our optimized embedded prompt structure or write a fully custom system prompt.</p>
+
+            <div class="form-grid">
+              <div class="form-field col-12">
+                <label class="form-label">Prompting Mode</label>
+                <div class="prompt-toggle">
+                  <button type="button" class="prompt-toggle-btn active" id="btn-mode-embedded" data-mode="embedded">Optimized Template</button>
+                  <button type="button" class="prompt-toggle-btn" id="btn-mode-custom" data-mode="custom">Fully Custom Prompt</button>
+                </div>
+              </div>
+
+              <!-- Embedded Template Fields -->
+              <div id="embedded-fields" class="form-field col-12 flex-fields">
+                <div class="form-field">
+                  <label class="form-label" for="prompt-tone">Default Cold Email Tone</label>
+                  <select class="form-select" id="prompt-tone">
+                    <!-- Loaded dynamically from TONE_OPTIONS -->
+                  </select>
+                  <span class="field-hint" id="tone-desc-display"></span>
+                </div>
+                <div class="form-field">
+                  <label class="form-label" for="prompt-instructions">Additional Custom Writing Instructions</label>
+                  <textarea class="form-textarea" id="prompt-instructions" rows="4" placeholder="e.g. Always mention my experience working remotely. Don't sound desperate. Pitch my Web3 experience."></textarea>
+                </div>
+              </div>
+
+              <!-- Custom Prompt Textarea -->
+              <div id="custom-fields" class="form-field col-12 hidden">
+                <div class="form-field col-12">
+                  <label class="form-label" for="prompt-custom-text">Custom System Prompt Template</label>
+                  <textarea class="form-textarea" id="prompt-custom-text" rows="12" placeholder="Write your own custom prompt here..."></textarea>
+                  <div class="field-hint custom-vars-hint">
+                    <strong>Available template variables (will be substituted):</strong><br>
+                    <code>{name}</code>, <code>{role}</code>, <code>{company}</code>, <code>{bio}</code>, 
+                    <code>{tone}</code>, <code>{tone_guidelines}</code>, <code>{instructions}</code>, 
+                    <code>{portfolio_links}</code>, <code>{job_description}</code>
+                  </div>
+                </div>
+                <div class="form-field col-12 action-row" style="margin-top: 12px;">
+                  <button id="reset-prompt-btn" class="btn btn-sm btn-secondary">Reset to Default Template</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 6. Automation Section -->
+        <section id="panel-automation" class="settings-panel">
+          <div class="setting-group">
+            <h2 class="setting-group-title">
+              <span class="setting-dot orange"></span> Automation Settings
+            </h2>
+            <p class="section-desc">Configure automation settings when extracting and sending emails. Slow delays prevent emails from going to spam folders.</p>
+
+            <div class="form-grid">
+              <div class="form-field col-12">
+                <div class="toggle-container">
+                  <div class="toggle" id="toggle-auto-send">
+                    <span class="toggle-knob"></span>
+                  </div>
+                  <span class="toggle-label">Auto-Send Mode (Send directly without review)</span>
+                </div>
+                <span class="field-hint text-warning">⚠️ WARNING: Emails will be queued and sent immediately as soon as a job is scraped and an email address is resolved.</span>
+              </div>
+              <div class="form-field col-6">
+                <label class="form-label" for="auto-delay">Delay Between Emails</label>
+                <select class="form-select" id="auto-delay">
+                  <!-- Loaded dynamically from DELAY_OPTIONS -->
+                </select>
+              </div>
+              <div class="form-field col-6">
+                <label class="form-label" for="auto-limit">Max Emails Per Session</label>
+                <input class="form-input" type="number" id="auto-limit" min="1" max="100" placeholder="50">
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. System Section -->
+        <section id="panel-system" class="settings-panel">
+          <div class="setting-group">
+            <h2 class="setting-group-title">
+              <span class="setting-dot"></span> System Backup & Utilities
+            </h2>
+            <p class="section-desc">Manage your extension settings. Export them to take a backup, import a previously saved backup, or perform a factory reset.</p>
+
+            <div class="form-grid">
+              <div class="form-field col-12 col-flex-btns">
+                <button id="export-settings-btn" class="btn btn-md btn-secondary">📤 Export Settings (JSON)</button>
+                
+                <button id="import-trigger-btn" class="btn btn-md btn-secondary">📥 Import Settings (JSON)</button>
+                <input type="file" id="import-settings-input" accept="application/json" style="display: none;">
+              </div>
+              
+              <div class="form-field col-12">
+                <hr class="form-divider">
+              </div>
+              
+              <div class="form-field col-12">
+                <label class="form-label">Backend Connection URL</label>
+                <input class="form-input" type="url" id="backend-url" placeholder="http://localhost:8000">
+                <span class="field-hint">Specify the API backend URL where requests should be sent. Default local: http://localhost:8000. Deployed: https://coldcraft-api.onrender.com</span>
+              </div>
+
+              <div class="form-field col-12">
+                <hr class="form-divider">
+              </div>
+              
+              <div class="form-field col-12">
+                <label class="form-label text-warning">Dangerous Actions</label>
+                <button id="reset-all-btn" class="btn btn-md btn-danger">🗑️ Reset All Extension Settings</button>
+                <span class="field-hint text-warning">This will completely wipe your profile, API keys, email SMTP credentials, and reset settings to original defaults. Job history is kept.</span>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Dialog / Modal confirm overlay -->
+  <div class="modal-overlay hidden" id="confirm-modal-overlay">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="confirm-modal-title">Confirm Reset</h3>
+        <span class="modal-close" id="confirm-modal-close">×</span>
+      </div>
+      <div class="modal-body">
+        <p id="confirm-modal-message">Are you sure you want to perform this action?</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-sm btn-secondary" id="confirm-cancel-btn">Cancel</button>
+        <button class="btn btn-sm btn-danger btn-primary" id="confirm-ok-btn">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notifications -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- JS scripts -->
+  <script src="../utils/constants.js"></script>
+  <script src="../utils/storage.js"></script>
+  <script src="../utils/api.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>

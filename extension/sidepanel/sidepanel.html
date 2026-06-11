@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ColdCraft AI</title>
+  <link rel="stylesheet" href="../styles/shared.css">
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+
+  <!-- ============ HEADER ============ -->
+  <div class="panel-header">
+    <div class="panel-logo">
+      <span class="logo-icon">⚡</span>
+      <span class="logo-text">ColdCraft AI</span>
+    </div>
+    <div class="header-actions">
+      <button class="icon-btn" id="btn-export" title="Export List">📤</button>
+      <button class="icon-btn" id="btn-settings" title="Open Settings">⚙️</button>
+    </div>
+  </div>
+
+  <!-- ============ TAB NAVIGATION ============ -->
+  <div class="tab-nav">
+    <button class="tab-btn active" data-tab="dashboard">
+      <span class="tab-icon">📊</span>
+      <span>Dashboard</span>
+    </button>
+    <button class="tab-btn" data-tab="jobs">
+      <span class="tab-icon">💼</span>
+      <span>Pending mails</span>
+    </button>
+    <button class="tab-btn" data-tab="search">
+      <span class="tab-icon">🔍</span>
+      <span>Search</span>
+    </button>
+    <button class="tab-btn" data-tab="quick-settings">
+      <span class="tab-icon">⚙️</span>
+      <span>Settings</span>
+    </button>
+  </div>
+
+  <!-- ============ PANEL CONTENT ============ -->
+  <div class="panel-content" id="panel-content">
+
+    <!-- ======== DASHBOARD TAB ======== -->
+    <div class="tab-pane active" id="tab-dashboard">
+      <!-- Greeting -->
+      <div class="greeting mb-16">
+        <h3 class="greeting-name">👋 Hey there!</h3>
+        <p class="text-sm text-muted">Ready to craft some cold emails?</p>
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="stats-grid mb-16">
+        <div class="stat-card stat-green">
+          <div class="stat-value" id="stat-sent">0</div>
+          <div class="stat-label">SENT</div>
+        </div>
+        <div class="stat-card stat-yellow">
+          <div class="stat-value" id="stat-pending">0</div>
+          <div class="stat-label">PENDING</div>
+        </div>
+        <div class="stat-card stat-blue">
+          <div class="stat-value" id="stat-total">0</div>
+          <div class="stat-label">TOTAL</div>
+        </div>
+      </div>
+
+      <!-- Input Modes -->
+      <div class="mode-card yellow pixel-card anim-item" id="mode-extract">
+        <div class="mode-icon">🌐</div>
+        <div class="mode-info">
+          <h3>Extract This Page</h3>
+          <p>Scrape jobs from active tab</p>
+        </div>
+        <span class="mode-arrow">→</span>
+      </div>
+
+      <div class="mode-card blue pixel-card anim-item" id="mode-url">
+        <div class="mode-icon">🔗</div>
+        <div class="mode-info">
+          <h3>Paste URL(s)</h3>
+          <p>Enter career page links</p>
+        </div>
+        <span class="mode-arrow">→</span>
+      </div>
+
+      <!-- URL Input (hidden by default) -->
+      <div class="url-input-container hidden" id="url-input-container">
+        <textarea class="form-textarea" id="url-input" placeholder="Paste URLs here (one per line)...&#10;https://careers.google.com/jobs/123&#10;https://jobs.nike.com/job/R-33460" rows="3"></textarea>
+        <button class="btn btn-md btn-primary w-full mt-8" id="btn-extract-urls">⚡ Extract & Generate</button>
+      </div>
+
+      <div class="mode-card green pixel-card anim-item" id="mode-search">
+        <div class="mode-icon">🔍</div>
+        <div class="mode-info">
+          <h3>Search Jobs</h3>
+          <p>Find jobs by keyword</p>
+        </div>
+        <span class="mode-arrow">→</span>
+      </div>
+
+      <div class="divider">or bring your own</div>
+
+      <div class="mode-card pink pixel-card anim-item" id="mode-import">
+        <div class="mode-icon">📋</div>
+        <div class="mode-info">
+          <h3>Import List</h3>
+          <p>Upload CSV contacts</p>
+        </div>
+        <span class="mode-arrow">→</span>
+      </div>
+      <input type="file" id="csv-file-input" accept=".csv" class="hidden">
+
+      <div class="mode-card purple pixel-card anim-item" id="mode-template">
+        <div class="mode-icon">📄</div>
+        <div class="mode-info">
+          <h3>Download Template</h3>
+          <p>Get CSV template to fill</p>
+        </div>
+        <span class="mode-arrow">↓</span>
+      </div>
+    </div>
+
+    <!-- ======== JOBS TAB ======== -->
+    <div class="tab-pane" id="tab-jobs">
+      <!-- Jobs Header -->
+      <div class="jobs-header">
+        <div class="flex items-center gap-8">
+          <h3>Pending mails</h3>
+          <span class="jobs-count" id="jobs-count">0</span>
+        </div>
+        <div class="flex items-center gap-8">
+          <select class="form-select jobs-filter" id="jobs-filter">
+            <option value="all">All</option>
+            <option value="ready">Ready</option>
+            <option value="pending">Pending</option>
+            <option value="sent">Sent</option>
+            <option value="failed">Failed</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Select All Row -->
+      <div class="select-all-row" id="select-all-row">
+        <label class="checkbox-label">
+          <div class="checkbox" id="select-all-checkbox">&nbsp;</div>
+          <span class="text-sm">Select All</span>
+        </label>
+        <button class="btn btn-sm btn-secondary" id="btn-generate-selected" title="Generate emails for selected">📧 Generate</button>
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" id="jobs-empty-state">
+        <div class="empty-icon">💼</div>
+        <h3>No pending mails yet</h3>
+        <p>Scrape a careers page, paste URLs, or import a CSV to get started.</p>
+        <button class="btn btn-md btn-primary" id="btn-go-dashboard">Go to Dashboard</button>
+      </div>
+
+      <!-- Job List -->
+      <div class="job-list" id="job-list">
+      </div>
+
+      <!-- Import Analysis (shown after CSV import) -->
+      <div class="import-analysis hidden" id="import-analysis">
+        <h3 class="mb-12">📋 Import Analysis</h3>
+        <div class="analysis-card" id="analysis-ready">
+          <div class="analysis-left">
+            <div class="analysis-dot" style="background:var(--accent-green);"></div>
+            <div class="analysis-info">
+              <h4>Ready to Send</h4>
+              <p>Has email + cold email</p>
+            </div>
+          </div>
+          <div class="analysis-count" style="color:var(--accent-green-dark);">0</div>
+        </div>
+        <div class="analysis-card" id="analysis-needs-gen">
+          <div class="analysis-left">
+            <div class="analysis-dot" style="background:var(--accent-blue);"></div>
+            <div class="analysis-info">
+              <h4>Needs Email Generation</h4>
+              <p>Has email, no cold email</p>
+            </div>
+          </div>
+          <div class="analysis-count" style="color:var(--accent-blue-dark);">0</div>
+        </div>
+        <div class="analysis-card" id="analysis-needs-email">
+          <div class="analysis-left">
+            <div class="analysis-dot" style="background:var(--accent-yellow);"></div>
+            <div class="analysis-info">
+              <h4>Can Try Finding Email</h4>
+              <p>Has URL or company, no email</p>
+            </div>
+          </div>
+          <div class="analysis-count" style="color:#b8960a;">0</div>
+        </div>
+        <div class="analysis-card" id="analysis-manual">
+          <div class="analysis-left">
+            <div class="analysis-dot" style="background:var(--accent-orange);"></div>
+            <div class="analysis-info">
+              <h4>Needs Manual Email</h4>
+              <p>Only company name available</p>
+            </div>
+          </div>
+          <div class="analysis-count" style="color:#c97a1a;">0</div>
+        </div>
+        <div class="analysis-card" id="analysis-incomplete">
+          <div class="analysis-left">
+            <div class="analysis-dot" style="background:var(--accent-pink);"></div>
+            <div class="analysis-info">
+              <h4>Incomplete</h4>
+              <p>Missing required data</p>
+            </div>
+          </div>
+          <div class="analysis-count" style="color:var(--accent-pink-dark);">0</div>
+        </div>
+        <div class="flex gap-8 mt-12">
+          <button class="btn btn-md btn-primary" style="flex:1;" id="btn-process-import">⚡ Process All</button>
+          <button class="btn btn-md btn-secondary" style="flex:1;" id="btn-dismiss-analysis">📋 Review List</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======== SEARCH TAB ======== -->
+    <div class="tab-pane" id="tab-search">
+      <div class="form-field">
+        <div class="form-label">SEARCH JOBS</div>
+        <div class="flex gap-8">
+          <input class="form-input" id="search-input" placeholder="React Developer in Mumbai..." style="flex:1;">
+          <button class="btn btn-sm btn-primary" id="btn-search" style="padding:8px 14px;">🔍</button>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <div class="form-label">API SOURCE</div>
+        <select class="form-select" id="search-provider">
+          <option value="jsearch">JSearch (LinkedIn/Indeed)</option>
+          <option value="adzuna">Adzuna</option>
+          <option value="remoteok">RemoteOK (Free, no key)</option>
+        </select>
+      </div>
+
+      <!-- Search Results -->
+      <div class="divider">results</div>
+      <div id="search-results">
+        <div class="empty-state">
+          <div class="empty-icon">🔍</div>
+          <h3>Search for jobs</h3>
+          <p>Enter keywords and location above to find jobs.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======== SYSTEM SETTINGS TAB (Unified Full settings) ======== -->
+    <div class="tab-pane" id="tab-quick-settings" style="max-height: calc(100vh - 120px); overflow-y: auto; padding-right: 4px;">
+      <!-- Title & Header Actions -->
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; margin-top: 4px;">
+        <h3 style="font-size:12px; font-weight:700; text-transform: uppercase; letter-spacing: 0.5px;">⚙️ System Settings</h3>
+        <button id="qs-save-all-btn" class="btn btn-sm btn-primary">Save All</button>
+      </div>
+
+      <!-- Accordion Section 1: Profile -->
+      <details class="pixel-card" style="border:var(--border-width) solid var(--border-color); background:var(--bg-card); padding:10px; margin-bottom:10px;" open>
+        <summary style="font-weight:700; font-size:12px; cursor:pointer; user-select:none;">👤 Profile Settings</summary>
+        <div style="margin-top:10px;">
+          <div class="form-field">
+            <div class="form-label">YOUR FULL NAME</div>
+            <input class="form-input" id="profile-name" placeholder="John Smith">
+          </div>
+          <div class="form-field">
+            <div class="form-label">YOUR TITLE / ROLE</div>
+            <input class="form-input" id="profile-role" placeholder="Senior Developer">
+          </div>
+          <div class="form-field">
+            <div class="form-label">YOUR COMPANY NAME (OPTIONAL)</div>
+            <input class="form-input" id="profile-company" placeholder="Acme Inc.">
+          </div>
+          <div class="form-field">
+            <div class="form-label">CORE SKILLS (COMMA-SEPARATED)</div>
+            <input class="form-input" id="profile-skills" placeholder="React, Node.js, Python">
+          </div>
+          <div class="form-field">
+            <div class="form-label">SHORT BIO</div>
+            <textarea class="form-textarea" id="profile-bio" placeholder="Tell the LLM about your accomplishments..." rows="3"></textarea>
+          </div>
+        </div>
+      </details>
+
+      <!-- Accordion Section 2: AI & Job Search API -->
+      <details class="pixel-card" style="border:var(--border-width) solid var(--border-color); background:var(--bg-card); padding:10px; margin-bottom:10px;">
+        <summary style="font-weight:700; font-size:12px; cursor:pointer; user-select:none;">🔑 AI API & Backend</summary>
+        <div style="margin-top:10px;">
+          <div class="form-field">
+            <div class="form-label">BACKEND URL</div>
+            <input class="form-input" id="backend-url" placeholder="http://localhost:8000" type="url">
+          </div>
+          <div class="form-field">
+            <div class="form-label">LLM PROVIDER</div>
+            <select class="form-select" id="api-llm-provider">
+              <option value="groq">Groq (Free & Fast)</option>
+              <option value="openai">OpenAI</option>
+              <option value="gemini">Google Gemini</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <div class="form-label">LLM API KEY</div>
+            <div class="password-wrapper">
+              <input class="form-input" type="password" id="api-llm-key" placeholder="Enter provider API key">
+              <button class="toggle-password-btn" type="button">👁️</button>
+            </div>
+            <span class="field-hint" id="llm-key-hint" style="font-size:10px; color:var(--text-muted);"></span>
+          </div>
+          <div class="form-field">
+            <div class="form-label">LLM MODEL</div>
+            <div style="display:flex; gap:8px;">
+              <select class="form-select" id="api-llm-model" style="flex:1;">
+                <option value="llama-3.3-70b-versatile">llama-3.3-70b-versatile (Default)</option>
+              </select>
+              <button id="fetch-models-btn" class="btn btn-sm btn-secondary" type="button" style="padding: 0 10px;">🔄 Fetch</button>
+            </div>
+          </div>
+          <div class="form-field">
+            <div class="form-label">JOB SEARCH PROVIDER</div>
+            <select class="form-select" id="api-search-provider">
+              <option value="remoteok">RemoteOK (Free, No Key)</option>
+              <option value="jsearch">JSearch (RapidAPI)</option>
+              <option value="adzuna">Adzuna</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <div class="form-label">SEARCH API KEY</div>
+            <div class="password-wrapper">
+              <input class="form-input" type="password" id="api-search-key" placeholder="Enter search provider API key">
+              <button class="toggle-password-btn" type="button">👁️</button>
+            </div>
+            <span class="field-hint" id="search-key-hint" style="font-size:10px; color:var(--text-muted);"></span>
+          </div>
+          <button id="test-connection-btn" class="btn btn-sm btn-secondary w-full mt-4">⚡ Test Server Connection</button>
+        </div>
+      </details>
+
+      <!-- Accordion Section 3: Gmail SMTP Settings (Optional) -->
+      <details class="pixel-card" style="border:var(--border-width) solid var(--border-color); background:var(--bg-card); padding:10px; margin-bottom:10px;" id="gmail-smtp-section">
+        <summary style="font-weight:700; font-size:12px; cursor:pointer; user-select:none;">
+          <span style="display:inline-flex; align-items:center; justify-content:space-between; width:calc(100% - 20px); vertical-align:middle; margin-left:4px;">
+            <span>📧 Gmail SMTP (Auto-Send)</span>
+            <span id="gmail-auth-status" class="gmail-auth-badge gmail-auth-unverified">● Not Verified</span>
+          </span>
+        </summary>
+        <div style="margin-top:10px;">
+          <p style="font-size:10px; color:var(--text-secondary); line-height:1.4; margin-bottom:8px;">
+            Required for Auto-Send. Enter your Gmail address and a 16-character
+            <strong>App Password</strong> (not your regular password).
+            <a href="https://myaccount.google.com/apppasswords" target="_blank" style="color:var(--accent-blue); text-decoration:underline;">Generate App Password ↗</a>
+          </p>
+          <div class="form-field">
+            <div class="form-label">GMAIL ADDRESS (SENDER)</div>
+            <input class="form-input" id="email-address" placeholder="yourname@gmail.com" type="email" autocomplete="email">
+          </div>
+          <div class="form-field">
+            <div class="form-label">GMAIL APP PASSWORD</div>
+            <div class="password-wrapper">
+              <input class="form-input" type="password" id="email-password" placeholder="xxxx xxxx xxxx xxxx" autocomplete="new-password">
+              <button class="toggle-password-btn" type="button">👁️</button>
+            </div>
+            <span class="field-hint" style="font-size:9px; color:var(--text-muted);">
+              16-character App Password. Spaces are auto-removed.
+            </span>
+          </div>
+          <!-- Verify Button -->
+          <button id="verify-gmail-btn" class="btn btn-sm btn-secondary w-full" style="margin-top:8px; margin-bottom:4px;">
+            🔐 Verify Gmail Credentials
+          </button>
+          <!-- Auth Status Detail -->
+          <div id="gmail-auth-detail" style="font-size:10px; line-height:1.5; padding:6px 8px; border-radius:4px; display:none; margin-top:4px;"></div>
+
+          <div class="form-field" style="margin-top:10px;">
+            <div class="form-label">EMAIL SIGNATURE (OPTIONAL)</div>
+            <textarea class="form-textarea" id="email-signature" placeholder="Best regards,&#10;John Smith" rows="2"></textarea>
+          </div>
+        </div>
+      </details>
+
+
+      <!-- Accordion Section 4: Portfolios & Resume -->
+      <details class="pixel-card" style="border:var(--border-width) solid var(--border-color); background:var(--bg-card); padding:10px; margin-bottom:10px;">
+        <summary style="font-weight:700; font-size:12px; cursor:pointer; user-select:none;">📎 Resume & Portfolios</summary>
+        <div style="margin-top:10px;">
+          <div class="form-field">
+            <div class="form-label">DEFAULT RESUME (PDF)</div>
+            <div class="file-upload" id="resume-dropzone" style="padding: 8px;">
+              <span class="upload-icon" style="font-size:16px;">📄</span>
+              <span class="upload-text" style="font-size:10px;">Click / Drag PDF here</span>
+              <input type="file" id="resume-input" accept="application/pdf" style="display: none;">
+            </div>
+            <div id="resume-status" class="file-status-row hidden" style="padding: 4px 8px; font-size:10px;">
+              <span class="file-name" id="resume-name-display" style="max-width:140px;"></span>
+              <button type="button" class="btn btn-sm btn-danger remove-file-btn" id="remove-resume-btn" style="padding:2px 6px; font-size:9px;">Remove</button>
+            </div>
+          </div>
+          <div class="form-field">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+              <div class="form-label" style="margin-bottom:0;">PORTFOLIO LINKS</div>
+              <button type="button" class="btn btn-sm btn-secondary" id="add-portfolio-btn" style="padding: 2px 6px; font-size:9px;">+ Add Link</button>
+            </div>
+            <div id="portfolio-links-container" style="margin-top:6px;"></div>
+          </div>
+        </div>
+      </details>
+
+      <!-- Accordion Section 5: Writing Tone & Instructions -->
+      <details class="pixel-card" style="border:var(--border-width) solid var(--border-color); background:var(--bg-card); padding:10px; margin-bottom:10px;">
+        <summary style="font-weight:700; font-size:12px; cursor:pointer; user-select:none;">✍️ Writing Tone & Instructions</summary>
+        <div style="margin-top:10px;">
+          <div class="form-field">
+            <div class="form-label">WRITING TONE</div>
+            <select class="form-select" id="prompt-tone">
+              <option value="professional">🏢 Professional</option>
+              <option value="friendly">😊 Friendly</option>
+              <option value="bold">💪 Bold</option>
+              <option value="concise">✂️ Concise</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <div class="form-label">CUSTOM WRITING INSTRUCTIONS</div>
+            <textarea class="form-textarea" id="prompt-instructions" placeholder="e.g. Always pitch my AWS experience..." rows="3"></textarea>
+          </div>
+        </div>
+      </details>
+
+      <!-- Accordion Section 6: Backups & System -->
+      <details class="pixel-card" style="border:var(--border-width) solid var(--border-color); background:var(--bg-card); padding:10px; margin-bottom:10px;">
+        <summary style="font-weight:700; font-size:12px; cursor:pointer; user-select:none;">💾 Backups & Reset</summary>
+        <div style="margin-top:10px; display:flex; flex-direction:column; gap:8px;">
+          <button id="export-settings-btn" class="btn btn-sm btn-secondary w-full">📤 Export Settings (JSON)</button>
+          <button id="import-trigger-btn" class="btn btn-sm btn-secondary w-full">📥 Import Settings (JSON)</button>
+          <input type="file" id="import-settings-input" accept="application/json" style="display: none;">
+          <button id="reset-all-btn" class="btn btn-sm btn-danger w-full" style="background:var(--accent-pink);">🗑️ Factory Reset Settings</button>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- ============ FOOTER ============ -->
+  <div class="panel-footer">
+    <div class="footer-row">
+      <div class="toggle-container">
+        <span class="toggle-label">🤖 Auto-Send</span>
+        <div class="toggle" id="toggle-autosend">
+          <div class="toggle-knob"></div>
+        </div>
+      </div>
+      <span class="text-xs text-muted" id="autosend-status">Off</span>
+    </div>
+    <button class="btn btn-lg btn-primary" id="btn-send-all" disabled>
+      🚀 Send All Selected (<span id="send-count">0</span>)
+    </button>
+  </div>
+
+  <!-- ============ PREVIEW MODAL ============ -->
+  <div class="modal-overlay hidden" id="preview-modal">
+    <div class="modal pixel-corners">
+      <div class="modal-header" style="background:var(--accent-blue);">
+        <h3 id="preview-modal-title">📧 Email Preview</h3>
+        <span class="modal-close" id="preview-modal-close">✕</span>
+      </div>
+      <div class="modal-body">
+        <div class="form-field">
+          <div class="form-label">TO</div>
+          <div class="text-sm font-bold" id="preview-to"></div>
+        </div>
+        <div class="form-field">
+          <div class="form-label">SUBJECT</div>
+          <div class="text-sm font-bold" id="preview-subject"></div>
+        </div>
+        <div class="form-field">
+          <div class="form-label">EMAIL BODY</div>
+          <div class="preview-email-body" id="preview-body"></div>
+        </div>
+        <div class="form-field" id="preview-attachments-section">
+          <div class="form-label">ATTACHMENTS</div>
+          <div id="preview-attachments"></div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-md btn-secondary" id="preview-close-btn">Close</button>
+        <button class="btn btn-md btn-purple" id="preview-edit-btn">✏️ Edit</button>
+        <button class="btn btn-md btn-blue" id="preview-copy-btn" title="Copy email body to clipboard">📋 Copy</button>
+        <button class="btn btn-md btn-primary" id="preview-gmail-btn" style="background:var(--accent-orange);" title="Open compose window in Gmail Web">📧 Gmail Web</button>
+        <button class="btn btn-md btn-green" id="preview-send-btn" title="Send directly via SMTP">📤 Auto-Send</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ EDIT MODAL ============ -->
+  <div class="modal-overlay hidden" id="edit-modal">
+    <div class="modal pixel-corners">
+      <div class="modal-header" style="background:var(--accent-purple);">
+        <h3 id="edit-modal-title">✏️ Edit Job</h3>
+        <span class="modal-close" id="edit-modal-close">✕</span>
+      </div>
+      <div class="modal-body">
+        <div class="modal-section">
+          <div class="modal-section-title">
+            RECIPIENT EMAIL
+            <span class="override-badge default" id="edit-email-badge">Using detected</span>
+          </div>
+          <input class="form-input" id="edit-email">
+        </div>
+        <div class="modal-section">
+          <div class="modal-section-title">
+            SUBJECT LINE
+          </div>
+          <input class="form-input" id="edit-subject" placeholder="Re: Job Opening...">
+        </div>
+        <div class="modal-section">
+          <div class="modal-section-title">
+            COLD EMAIL
+            <span class="override-badge default" id="edit-cold-email-badge">AI Generated</span>
+          </div>
+          <textarea class="form-textarea" id="edit-cold-email" style="min-height:140px;" placeholder="Your cold email..."></textarea>
+        </div>
+        <div class="modal-section">
+          <div class="modal-section-title">
+            RESUME
+            <span class="override-badge default" id="edit-resume-badge">Using default</span>
+          </div>
+          <div class="flex items-center gap-8">
+            <span class="file-chip" id="edit-resume-chip">📄 No resume</span>
+            <button class="btn btn-sm btn-secondary" id="edit-resume-change">Change</button>
+          </div>
+          <input type="file" id="edit-resume-input" accept=".pdf,.doc,.docx" class="hidden">
+        </div>
+        <div class="modal-section">
+          <div class="modal-section-title">
+            PORTFOLIO & ATTACHMENTS
+            <span class="override-badge default" id="edit-attach-badge">Using default</span>
+          </div>
+          <div id="edit-portfolio-links" class="mb-8"></div>
+          <div class="flex gap-8">
+            <input class="form-input" id="edit-new-link" placeholder="Add portfolio link..." style="flex:1;">
+            <button class="btn btn-sm btn-secondary" id="edit-add-link">➕</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-md btn-secondary" id="edit-cancel-btn">Cancel</button>
+        <button class="btn btn-md btn-blue" id="edit-regenerate-btn" title="Regenerate email body using AI">🔄 Regenerate</button>
+        <button class="btn btn-md btn-primary" id="edit-save-btn">💾 Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CONFIRM DIALOG ============ -->
+  <div class="modal-overlay hidden" id="confirm-modal">
+    <div class="modal pixel-corners" style="max-width:320px;">
+      <div class="confirm-dialog">
+        <h3 id="confirm-title">Are you sure?</h3>
+        <p id="confirm-message">This action cannot be undone.</p>
+        <div class="confirm-actions">
+          <button class="btn btn-md btn-secondary" id="confirm-cancel">Cancel</button>
+          <button class="btn btn-md btn-primary" id="confirm-ok">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ TOAST CONTAINER ============ -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- ============ LOADING OVERLAY ============ -->
+  <div class="loading-overlay hidden" id="loading-overlay">
+    <div class="loading-content">
+      <div class="spinner"></div>
+      <p class="text-sm font-bold mt-8" id="loading-text">Processing...</p>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../utils/constants.js"></script>
+  <script src="../utils/storage.js"></script>
+  <script src="../utils/state.js"></script>
+  <script src="../utils/api.js"></script>
+  <script src="../utils/csv.js"></script>
+  <script src="sidepanel.js"></script>
+</body>
+</html>

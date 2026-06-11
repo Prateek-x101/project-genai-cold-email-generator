@@ -1,0 +1,15 @@
+fastapi
+uvicorn
+langchain
+langchain-community
+langchain-groq
+langchain-openai
+langchain-google-genai
+chromadb
+python-dotenv
+pydantic
+pydantic-settings
+beautifulsoup4
+requests
+python-multipart
+aiosmtplib

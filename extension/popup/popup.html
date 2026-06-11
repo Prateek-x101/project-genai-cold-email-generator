@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ColdCraft AI</title>
+  <link rel="stylesheet" href="../styles/shared.css">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body class="popup-body">
+  <div class="popup-container">
+    <!-- Header -->
+    <header class="popup-header">
+      <div class="logo-area">
+        <span class="logo-icon">⚡</span>
+        <h2>ColdCraft AI</h2>
+      </div>
+      <div id="connection-status" class="status-indicator error" title="Backend Status">
+        <span class="status-dot"></span>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="popup-main">
+      <!-- Main Action -->
+      <div class="action-section">
+        <button id="scrape-btn" class="btn btn-lg btn-primary">
+          ⚡ Scrape Career Page
+        </button>
+        <div id="scrape-error" class="error-msg hidden"></div>
+      </div>
+
+      <div class="divider">RECENT SCRAPED JOBS</div>
+
+      <!-- Recent Jobs List -->
+      <div class="recent-jobs-list" id="recent-jobs">
+        <!-- Empty state placeholder or dynamic rows -->
+        <div class="empty-state">
+          <div class="empty-icon">📁</div>
+          <p>No jobs scraped yet.</p>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="popup-footer">
+      <button id="open-workspace-btn" class="btn btn-sm btn-secondary flex-1">
+        💼 Workspace
+      </button>
+      <button id="open-settings-btn" class="btn btn-sm btn-secondary">
+        ⚙️
+      </button>
+    </footer>
+  </div>
+
+  <!-- Scripts -->
+  <script src="../utils/constants.js"></script>
+  <script src="../utils/storage.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>

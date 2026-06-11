@@ -1,0 +1,327 @@
+/* ==============================================
+   COLDCRAFT AI — OPTIONS PAGE STYLES
+   Specific styles for the settings page.
+   Shared styles are in ../styles/shared.css
+   ============================================== */
+
+/* ============ PAGE CONTAINER ============ */
+body {
+  background: var(--bg-page);
+  padding: 0;
+  margin: 0;
+  min-height: 100vh;
+}
+
+.options-container {
+  max-width: 1000px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ============ HEADER ============ */
+.options-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: var(--accent-yellow);
+  border-bottom: var(--border-width) solid var(--border-color);
+  box-shadow: 0px 4px 0px var(--border-color);
+  z-index: 10;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  font-size: 24px;
+}
+
+.logo-area h1 {
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.badge-v {
+  font-size: 9px;
+  font-weight: 700;
+  background: var(--bg-card);
+  border: 1.5px solid var(--border-color);
+  padding: 1px 6px;
+  text-transform: uppercase;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ============ WORKSPACE LAYOUT ============ */
+.options-workspace {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* Sidebar */
+.options-sidebar {
+  width: 220px;
+  background: var(--bg-primary);
+  border-right: var(--border-width) solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px 0;
+}
+
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 12px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-decoration: none;
+  border: var(--border-width) solid transparent;
+  transition: var(--transition-fast);
+  cursor: pointer;
+}
+
+.nav-item:hover {
+  background: var(--accent-yellow-light);
+  border-color: var(--border-color);
+}
+
+.nav-item.active {
+  background: var(--accent-yellow);
+  border-color: var(--border-color);
+  box-shadow: var(--shadow-sm);
+}
+
+.nav-icon {
+  font-size: 16px;
+}
+
+.sidebar-footer {
+  padding: 0 16px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.sidebar-footer a {
+  color: var(--accent-purple-dark);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+/* Content Area */
+.options-content {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+  height: calc(100vh - 70px);
+}
+
+.settings-panel {
+  display: none;
+  animation: fadeInUp 0.2s ease-out;
+}
+
+.settings-panel.active {
+  display: block;
+}
+
+.section-desc {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 500;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+/* ============ FORM GRID ============ */
+.form-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.col-6 {
+  flex: 0 0 calc(50% - 8px);
+  min-width: 200px;
+}
+
+.col-12 {
+  flex: 0 0 100%;
+}
+
+.form-divider {
+  border: none;
+  border-top: var(--border-width) solid var(--border-color);
+  opacity: 0.15;
+  margin: 10px 0;
+}
+
+.flex-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.col-flex-btns {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.col-flex-btns button {
+  flex: 1;
+  min-width: 180px;
+}
+
+.action-row {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 10px;
+}
+
+/* ============ WIDGETS & FIELDS ============ */
+.password-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.password-wrapper input {
+  padding-right: 40px;
+}
+
+.toggle-password-btn {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  user-select: none;
+}
+
+.field-hint {
+  display: block;
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+.field-hint a {
+  color: var(--accent-purple-dark);
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.text-warning {
+  color: var(--accent-pink-dark) !important;
+}
+
+/* Resume and attached files row */
+.file-status-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+  padding: 8px 12px;
+  background: var(--accent-green-dark);
+  color: var(--text-white);
+  border: var(--border-width) solid var(--border-color);
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.file-status-row .file-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 250px;
+}
+
+.file-status-row button {
+  color: var(--text-primary);
+}
+
+.attached-chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+/* Portfolio Link Cards */
+.dynamic-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.portfolio-link-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+  animation: slideUp 0.15s ease;
+}
+
+.portfolio-link-row input {
+  flex: 1;
+}
+
+.custom-vars-hint {
+  background: var(--bg-page);
+  border: 1.5px solid var(--border-color);
+  padding: 8px 12px;
+  margin-top: 8px;
+  border-radius: var(--radius-sm);
+}
+
+.custom-vars-hint code {
+  background: var(--accent-blue);
+  font-weight: 700;
+  padding: 1px 4px;
+  border: 1px solid var(--border-color);
+  font-family: monospace;
+}
+
+/* ============ UTILS ============ */
+.hidden {
+  display: none !important;
+}
+
+/* Animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

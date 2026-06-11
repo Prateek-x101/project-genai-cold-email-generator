@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: coldcraft-api
+    env: docker
+    plan: free # Can be upgraded by user
+    region: oregon # default region
+    dockerfilePath: backend/Dockerfile
+    context: backend
+    disk:
+      name: vectorstore-data
+      mountPath: /app/vectorstore
+      sizeGB: 1
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: CHROMADB_PATH
+        value: /app/vectorstore
+      - key: GROQ_API_KEY
+        sync: false # User can input this directly in Render dashboard
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: GOOGLE_API_KEY
+        sync: false

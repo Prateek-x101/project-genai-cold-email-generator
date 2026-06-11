@@ -1,0 +1,1 @@
+# ColdCraft AI package initialization.
